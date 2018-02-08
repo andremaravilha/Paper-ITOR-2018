@@ -254,23 +254,30 @@ data.table.best <- data.results %>%
   dplyr::filter(ALGORITHM %in% c("cplex-default", "maravilha", "rothberg", "cplex-polishing")) %>%
   dplyr::select(INSTANCE, ALGORITHM, OBJECTIVE) %>%
   dplyr::group_by(INSTANCE, ALGORITHM) %>%
-  dplyr::mutate(OBJECTIVE = min(round(OBJECTIVE, 4))) %>%
+  dplyr::mutate(BEST.OBJECTIVE = min(round(OBJECTIVE, 4))) %>%
+  dplyr::group_by(INSTANCE, ALGORITHM) %>%
+  dplyr::mutate(WORST.OBJECTIVE = max(round(OBJECTIVE, 4))) %>%
+  dplyr::select(INSTANCE, ALGORITHM, BEST.OBJECTIVE, WORST.OBJECTIVE) %>%
   dplyr::group_by(INSTANCE) %>%
   dplyr::filter(!duplicated(ALGORITHM)) %>%
   dplyr::arrange(INSTANCE, ALGORITHM) %>%
-  dplyr::mutate(BASELINE = rep(OBJECTIVE[ALGORITHM == "cplex-default"], each = length(unique(ALGORITHM))),
-                IMPROV = ((BASELINE - OBJECTIVE) / abs(BASELINE)) * 100)
+  dplyr::mutate(BASELINE = rep(BEST.OBJECTIVE[ALGORITHM == "cplex-default"], each = length(unique(ALGORITHM))),
+                IMPROV = ((BASELINE - BEST.OBJECTIVE) / abs(BASELINE)) * 100)
 
 my.table.best <- with(data.table.best,
-                      cbind(BASE          = OBJECTIVE[ALGORITHM == "cplex-default"],
-                            OBJ.MARAVILHA = OBJECTIVE[ALGORITHM == "maravilha"],
+                      cbind(WORST.CPLEX = WORST.OBJECTIVE[ALGORITHM == "cplex-default"],
+                            BEST.CPLEX = BEST.OBJECTIVE[ALGORITHM == "cplex-default"],
+                            WORST.MARAVILHA = WORST.OBJECTIVE[ALGORITHM == "maravilha"],
+                            BEST.MARAVILHA = BEST.OBJECTIVE[ALGORITHM == "maravilha"],
                             IMP.MARAVILHA = IMPROV[ALGORITHM == "maravilha"],
-                            OBJ.ROTHBERG  = OBJECTIVE[ALGORITHM == "rothberg"],
-                            IMP.ROTHBERG  = IMPROV[ALGORITHM == "rothberg"],
-                            OBJ.CPLEXPOL  = OBJECTIVE[ALGORITHM == "cplex-polishing"],
-                            IMP.CPLEXPOL  = IMPROV[ALGORITHM == "cplex-polishing"]))
+                            WORST.ROTHBERG = WORST.OBJECTIVE[ALGORITHM == "rothberg"],
+                            BEST.ROTHBERG = BEST.OBJECTIVE[ALGORITHM == "rothberg"],
+                            IMP.ROTHBERG = IMPROV[ALGORITHM == "rothberg"],
+                            WORST.CPLEXPOL = WORST.OBJECTIVE[ALGORITHM == "cplex-polishing"],
+                            BEST.CPLEXPOL = BEST.OBJECTIVE[ALGORITHM == "cplex-polishing"],
+                            IMP.CPLEXPOL = IMPROV[ALGORITHM == "cplex-polishing"]))
 rownames(my.table.best) <- sort(data.instances$NAME)
-xtable(my.table.best, digits = c(6,2,2,6,2,6,2,6))
+xtable(my.table.best, digits = c(6,2,2,2,2,6,2,2,6,2,2,6))
 
 
 # LaTeX table with a summary of results
