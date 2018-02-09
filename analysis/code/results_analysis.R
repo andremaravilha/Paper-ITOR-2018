@@ -71,6 +71,7 @@ aggdata1 <- data.results %>%
 
 # Performance in terms of mean rank (box-plot)
 pdf(file = "../figures/boxplot.pdf", width = 10, height = 7)
+#postscript(file = "../figures/boxplot.eps", width = 10, height = 7, paper = "special", horizontal = FALSE)
 fig1 <- ggplot2::ggplot(aggdata1, ggplot2::aes(x = ALGORITHM, y = MEAN.RANK, fill = ALGORITHM))
 fig1 + ggplot2::geom_boxplot() + 
   ggplot2::scale_x_discrete(name = "Algorithm", limits = algorithms.labels, labels = algorithms.names) +
@@ -132,6 +133,7 @@ winloses <- data.instances %>%
 
 # Plot
 pdf(file = "../figures/instances.pdf", width = 15, height = 10)
+#postscript(file = "../figures/instances.eps", width = 15, height = 10, paper = "special", horizontal = FALSE)
 fig2 <- ggplot2::ggplot(data = winloses,  mapping = aes(x = log10(VARS), 
                                                         y = log10(CONSTRAINTS), 
                                                         label = NAME,
@@ -223,6 +225,7 @@ for (i in 1:length(my.boot)) {
 
 # Plot
 pdf(file = "../figures/comparisons.pdf", width = 15, height = 5)
+#postscript(file = "../figures/comparisons.eps", width = 15, height = 5, paper = "special", horizontal = FALSE)
 fig3 <- ggplot(my.ci.df, aes(x = Comparison, y = Est, ymax = CIU, ymin = CIL))
 fig3 + geom_hline(yintercept = 0, size = 1.3, col = 2, linetype = 2) + 
   geom_pointrange(fatten = 5, size = 1.3) + coord_flip() + 
