@@ -7,7 +7,7 @@
 
 ## 1. About
 
-This repository contains the code of the MIP heuristics evaluated in the manuscript entitled "A Recombination-based Matheuristic for Mixed Integer Programming Problems with Binary Variables", written by André L. Maravilha, Eduardo G. Carrano and Felipe Campelo and published in the Iternational Transactions in Operational Research ([ITOR](https://onlinelibrary.wiley.com/doi/pdf/10.1111/itor.12526)).
+This repository contains the code of the MIP heuristics evaluated in the manuscript entitled "A Recombination-based Matheuristic for Mixed Integer Programming Problems with Binary Variables", written by André L. Maravilha, Eduardo G. Carrano and Felipe Campelo and published in the International Transactions in Operational Research ([ITOR](https://onlinelibrary.wiley.com/doi/pdf/10.1111/itor.12526)).
 
 The MIP heuristics were coded in C++ (version C++17) over [CPLEX](http://www.ibm.com/software/commerce/optimization/cplex-optimizer/) (version 12.7.1), using callback methods. The project was developed using [CLion](https://www.jetbrains.com/clion/) (version 2017.2.3) with [CMake](https://cmake.org/) (version 3.8) and GNU Compiller Collection ([GCC](https://gcc.gnu.org/), version 6.3.0) on a Linux machine. The content of this repository is available under the MIT license.
 
